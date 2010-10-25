@@ -2,15 +2,15 @@
 
 class UpsShippingQuote {
 
-    var $strAccessLicenseNumber 	= 'ABC123ABC123ABC123';
-    var $strUserId 					= 'UsernameHere';
-    var $strPassword				= 'supersecret';
-    var $strShipperNumber			= '445566';
-	var $strShipperZip				= '12345';
-	var $strDefaultServiceCode 		= '03'; // GND / General Ground method
-	var $strRateWebServiceLocation	= 'https://www.ups.com/ups.app/xml/Rate'; // Production URL
+	var $strAccessLicenseNumber	= 'ABC123ABC123ABC123';
+	var $strUserId			= 'UsernameHere';
+	var $strPassword		= 'supersecret';
+	var $strShipperNumber		= '445566';
+	var $strShipperZip		= '12345';
+	var $strDefaultServiceCode	= '03'; // GND / General Ground method
+	var $strRateWebServiceLocation  = 'https://www.ups.com/ups.app/xml/Rate'; // Production URL
 
-	var $boolDebugMode				= false;
+	var $boolDebugMode		= false;
 	
 	function UpsShippingQuote() { }
 

@@ -2,187 +2,232 @@
 
 class UpsShippingQuote {
 
-	var $strAccessLicenseNumber	= 'ABC123ABC123ABC123';
-	var $strUserId			= 'UsernameHere';
-	var $strPassword		= 'supersecret';
-	var $strShipperNumber		= '445566';
-	var $strShipperZip		= '12345';
-	var $strDefaultServiceCode	= '03'; // GND / General Ground method
-	var $strRateWebServiceLocation  = 'https://www.ups.com/ups.app/xml/Rate'; // Production URL
+	/**
+	 * @var strAccessLicenseNumber string
+	 * Get this license number from your UPS account
+	 **/
+	var $strAccessLicenseNumber 	= 'ABC123ABC123ABC123';
 
-	var $boolDebugMode		= false;
+	/**
+	 * @var strUserId string
+	 * The username you use to login to ups.com
+	 **/
+	var $strUserId 			= 'UsernameHere';
+
+	/**
+	 * @var strPassword string
+	 * The password you use to login to ups.com
+	 **/
+	var $strPassword		= 'supersecret';
+
+	/**
+	 * @var strShipperNumber string
+	 * Your UPS account number (may have to remove dashes)
+	 **/
+	var $strShipperNumber		= '445566';
+
+	/**
+	 * @var strShipperZip string
+	 * This is the "ship from" zip
+	 **/
+	var $strShipperZip		= '12345';
 	
+	/**
+	 * @var strDefaultServiceCode string
+	 * The default method you'd like to use
+	 **/
+	var $strDefaultServiceCode 	= '03'; // GND / General Ground method
+	
+	/** 
+	 * @var strRateWebServiceLocation string
+	 * The location of the web service
+	 **/
+	var $strRateWebServiceLocation	= 'https://www.ups.com/ups.app/xml/Rate'; // Production URL
+
+	/**
+	 * @var boolDebugMode boolean
+	 * Set this to true to print out debugging information
+	 **/
+	var $boolDebugMode		= false;
+
+	/**
+	 * Constructor method for PHP 4
+	 * 
+	 * @param void
+	 * 
+	 * @return void
+	 **/
 	function UpsShippingQuote() { }
 
 	/**
-	 * Gets passed a character string that represents
-	 * the method. The service code that needs to be 
-	 * passed to the web service is then returned.
-	 * Defaults to Ground shipping.
-	 * 
-	 * @param strService string 
-	 * 
-	 * @return string The shipping code the web service wants
-	 **/
+	* Gets passed a character string that represents
+	* the method. The service code that needs to be 
+	* passed to the web service is then returned.
+	* Defaults to Ground shipping.
+	* 
+	* @param strService string 
+	* 
+	* @return string The shipping code the web service wants
+	**/
 	private function GetServiceCode($strService='GND') {
 
 		switch($strService) { 
 
-		     case '1DM':            
-		       $strServiceCode = '14'; 
-		       break; 
+			case '1DM':            
+				$strServiceCode = '14'; 
+				break; 
 
-		     case '1DA':            
-		       $strServiceCode = '01'; 
-		       break;          
+			case '1DA':            
+				$strServiceCode = '01'; 
+				break;          
 
-		      case '1DAPI':            
-		       $strServiceCode = '01'; 
-		       break; 
+			case '1DAPI':            
+				$strServiceCode = '01'; 
+				break; 
 
-		     case '1DP':            
-		       $strServiceCode = '13'; 
-		       break; 
+			case '1DP':            
+				$strServiceCode = '13'; 
+				break; 
 
-		     case '2DM':            
-		       $strServiceCode = '59'; 
-		       break; 
+			case '2DM':            
+				$strServiceCode = '59'; 
+				break; 
 
-		     case '2DA':            
-		       $strServiceCode = '02'; 
-		       break; 
+			case '2DA':            
+				$strServiceCode = '02'; 
+				break; 
 
-		     case '3DS':            
-		       $strServiceCode = '12'; 
-		       break; 
+			case '3DS':            
+				$strServiceCode = '12'; 
+				break; 
 
-		     case 'GND':            
-		       $strServiceCode = '03'; 
-		       break; 
+			case 'GND':            
+				$strServiceCode = '03'; 
+				break; 
 
-		     case 'GNDRES':            
-		       $strServiceCode = '03'; 
-		       break; 
+			case 'GNDRES':            
+				$strServiceCode = '03'; 
+				break; 
 
-		     case 'GNDCOM':            
-		       $strServiceCode = '03'; 
-		       break;           
+			case 'GNDCOM':            
+				$strServiceCode = '03'; 
+				break;           
 
-		     case 'STD':            
-		       $strServiceCode = '11'; 
-		       break; 
+			case 'STD':            
+				$strServiceCode = '11'; 
+				break; 
 
-		     case 'XPR':            
-		       $strServiceCode = '07'; 
-		       break; 
+			case 'XPR':            
+				$strServiceCode = '07'; 
+				break; 
 
-		     case 'XDM':            
-		       $strServiceCode = '54'; 
-		       break; 
+			case 'XDM':            
+				$strServiceCode = '54'; 
+				break; 
 
-		     case 'XPD':            
-		       $strServiceCode = '08'; 
-		       break; 
+			case 'XPD':            
+				$strServiceCode = '08'; 
+				break; 
 
-		     default:            
-		       $strServiceCode = '03'; 
-		       break; 
+			default:            
+				$strServiceCode = '03'; 
+				break; 
 
-			}
+		}
 
 		return $strServiceCode;
 
 	} # end method GetServiceCode()
 
 	/**
-	 * Will hit the UPS web service and return some
-	 * rate information.
-	 * 
-	 * @param strDestinationZip string
-	 * 
-	 * @param strServiceShortName string
-	 * 
-	 * @param decPackageLength decimal
-	 * 
-	 * @param decPackageWidth decimal
-	 * 
-	 * @param decPackageHeight decimal
-	 * 
-	 * @param decPackageWeight decimal
-	 * 
-	 * @param boolReturnPriceOnly boolean
-	 * 
-	 * @return decimal/object Depends on the 
-	 * argument boolReturnPriceOnly
-	 **/
-    function GetShippingRate($strDestinationZip, $strServiceShortName='GND', $strPackageLength=18, $strPackageWidth=12, $strPackageHeight=4, $strPackageWeight=2, $boolReturnPriceOnly=true) {
+	* Will hit the UPS web service and return some
+	* rate information.
+	* 
+	* @param strDestinationZip string
+	* 
+	* @param strServiceShortName string
+	* 
+	* @param decPackageLength decimal
+	* 
+	* @param decPackageWidth decimal
+	* 
+	* @param decPackageHeight decimal
+	* 
+	* @param decPackageWeight decimal
+	* 
+	* @param boolReturnPriceOnly boolean
+	* 
+	* @return decimal/object Depends on the 
+	* argument boolReturnPriceOnly
+	**/
+	function GetShippingRate($strDestinationZip, $strServiceShortName='GND', $strPackageLength=18, $strPackageWidth=12, $strPackageHeight=4, $strPackageWeight=2, $boolReturnPriceOnly=true) {
 
 		$strServiceCode = $this->GetServiceCode($strServiceShortName);
-	
+
 		$strXml ="<?xml version=\"1.0\"?>  
 		<AccessRequest xml:lang=\"en-US\">  
-		    <AccessLicenseNumber>{$this->strAccessLicenseNumber}</AccessLicenseNumber>  
-		    <UserId>{$this->strUserId}</UserId>  
-		    <Password>{$this->strPassword}</Password>  
+			<AccessLicenseNumber>{$this->strAccessLicenseNumber}</AccessLicenseNumber>  
+			<UserId>{$this->strUserId}</UserId>  
+			<Password>{$this->strPassword}</Password>  
 		</AccessRequest>  
 		<?xml version=\"1.0\"?>  
 		<RatingServiceSelectionRequest xml:lang=\"en-US\">  
-		    <Request>  
-			<TransactionReference>  
-			    <CustomerContext>Bare Bones Rate Request</CustomerContext>  
-			    <XpciVersion>1.0001</XpciVersion>  
-			</TransactionReference>  
-			<RequestAction>Rate</RequestAction>  
-			<RequestOption>Rate</RequestOption>  
-		    </Request>  
-		<PickupType>  
-		    <Code>01</Code>  
-		</PickupType>  
-		<Shipment>  
-		    <Shipper>  
-			<Address>  
-			    <PostalCode>{$this->strShipperZip}</PostalCode>  
-			    <CountryCode>US</CountryCode>  
-			</Address>  
-		    <ShipperNumber>{$this->strShipperNumber}</ShipperNumber>  
-		    </Shipper>  
-		    <ShipTo>  
-			<Address>  
-			    <PostalCode>{$strDestinationZip}</PostalCode>  
-			    <CountryCode>US</CountryCode>  
-			<ResidentialAddressIndicator/>  
-			</Address>  
-		    </ShipTo>  
-		    <ShipFrom>  
-			<Address>  
-			    <PostalCode>{$this->strShipperZip}</PostalCode>  
-			    <CountryCode>US</CountryCode>  
-			</Address>  
-		    </ShipFrom>  
-		    <Service>  
-			<Code>{$strServiceCode}</Code>  
-		    </Service>  
-		    <Package>  
-			<PackagingType>  
-			    <Code>02</Code>  
-			</PackagingType>  
-			<Dimensions>  
-			    <UnitOfMeasurement>  
-				<Code>IN</Code>  
-			    </UnitOfMeasurement>  
-			    <Length>{$strPackageLength}</Length>  
-			    <Width>{$strPackageWidth}</Width>  
-			    <Height>{$strPackageHeight}</Height>  
-			</Dimensions>  
-			<PackageWeight>  
-			    <UnitOfMeasurement>  
-				<Code>LBS</Code>  
-			    </UnitOfMeasurement>  
-			    <Weight>{$strPackageWeight}</Weight>  
-			</PackageWeight>  
-		    </Package>  
-		</Shipment>  
-		</RatingServiceSelectionRequest>";  
+			<Request>  
+				<TransactionReference>  
+					<CustomerContext>Bare Bones Rate Request</CustomerContext>  
+					<XpciVersion>1.0001</XpciVersion>  
+				</TransactionReference>  
+				<RequestAction>Rate</RequestAction>  
+				<RequestOption>Rate</RequestOption>  
+			</Request>  
+			<PickupType>  
+				<Code>01</Code>  
+			</PickupType>  
+			<Shipment>  
+				<Shipper>  
+					<Address>  
+						<PostalCode>{$this->strShipperZip}</PostalCode>  
+						<CountryCode>US</CountryCode>  
+					</Address>  
+					<ShipperNumber>{$this->strShipperNumber}</ShipperNumber>  
+				</Shipper>  
+				<ShipTo>  
+					<Address>  
+						<PostalCode>{$strDestinationZip}</PostalCode>  
+						<CountryCode>US</CountryCode>  
+						<ResidentialAddressIndicator/>  
+					</Address>  
+				</ShipTo>  
+				<ShipFrom>  
+					<Address>  
+						<PostalCode>{$this->strShipperZip}</PostalCode>  
+						<CountryCode>US</CountryCode>  
+					</Address>  
+				</ShipFrom>  
+				<Service>  
+					<Code>{$strServiceCode}</Code>  
+				</Service>  
+				<Package>  
+					<PackagingType>  
+						<Code>02</Code>  
+					</PackagingType>  
+					<Dimensions>  
+						<UnitOfMeasurement>  
+							<Code>IN</Code>  
+						</UnitOfMeasurement>  
+						<Length>{$strPackageLength}</Length>  
+						<Width>{$strPackageWidth}</Width>  
+						<Height>{$strPackageHeight}</Height>  
+					</Dimensions>  
+					<PackageWeight>  
+						<UnitOfMeasurement>  
+							<Code>LBS</Code>  
+						</UnitOfMeasurement>  
+						<Weight>{$strPackageWeight}</Weight>  
+					</PackageWeight>  
+				</Package>  
+			</Shipment>  
+		</RatingServiceSelectionRequest>"; 
 
 		$rsrcCurl = curl_init($this->strRateWebServiceLocation);  
 
@@ -201,7 +246,7 @@ class UpsShippingQuote {
 		if($this->boolDebugMode) print_r($objResult);
 
 		curl_close($rsrcCurl);
-		
+
 		// Return either the decimal string value that is the rate
 		if($boolReturnPriceOnly) {
 
@@ -211,6 +256,7 @@ class UpsShippingQuote {
 		} else {
 
 			return $objResult;
+
 		}
 
 	} # end method GetShippingRate()

@@ -163,7 +163,7 @@ class UpsShippingQuote {
 	* @return decimal/object Depends on the 
 	* argument boolReturnPriceOnly
 	**/
-	function GetShippingRate($strDestinationZip, $strServiceShortName='GND', $strPackageLength=18, $strPackageWidth=12, $strPackageHeight=4, $strPackageWeight=2, $boolReturnPriceOnly=true) {
+	public function GetShippingRate($strDestinationZip, $strServiceShortName='GND', $strPackageLength=18, $strPackageWidth=12, $strPackageHeight=4, $strPackageWeight=2, $boolReturnPriceOnly=true) {
 
 		$strServiceCode = $this->GetServiceCode($strServiceShortName);
 

@@ -2,7 +2,7 @@
 
 /**
  * @author Jonathan W. Kelly <jonathanwkelly@gmail.com>
-**/
+ **/
 class UpsShippingQuote {
 
 	/**

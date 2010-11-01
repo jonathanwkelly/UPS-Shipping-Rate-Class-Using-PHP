@@ -9,49 +9,49 @@ class UpsShippingQuote {
 	 * @var strAccessLicenseNumber string
 	 * Get this license number from your UPS account
 	 **/
-	var $strAccessLicenseNumber 	= 'ABC123ABC123ABC123';
+	var $strAccessLicenseNumber = 'ABC123ABC123ABC123';
 
 	/**
 	 * @var strUserId string
 	 * The username you use to login to ups.com
 	 **/
-	var $strUserId 			= 'UsernameHere';
+	var $strUserId = 'UsernameHere';
 
 	/**
 	 * @var strPassword string
 	 * The password you use to login to ups.com
 	 **/
-	var $strPassword		= 'supersecret';
+	var $strPassword = 'supersecret';
 
 	/**
 	 * @var strShipperNumber string
 	 * Your UPS account number (may have to remove dashes)
 	 **/
-	var $strShipperNumber		= '445566';
+	var $strShipperNumber = '445566';
 
 	/**
 	 * @var strShipperZip string
 	 * This is the "ship from" zip
 	 **/
-	var $strShipperZip		= '12345';
+	var $strShipperZip = '12345';
 	
 	/**
 	 * @var strDefaultServiceCode string
 	 * The default method you'd like to use
 	 **/
-	var $strDefaultServiceCode 	= '03'; // GND / General Ground method
+	var $strDefaultServiceCode = '03'; // GND / General Ground method
 	
 	/** 
 	 * @var strRateWebServiceLocation string
 	 * The location of the web service
 	 **/
-	var $strRateWebServiceLocation	= 'https://www.ups.com/ups.app/xml/Rate'; // Production URL
+	var $strRateWebServiceLocation = 'https://www.ups.com/ups.app/xml/Rate'; // Production URL
 
 	/**
 	 * @var boolDebugMode boolean
 	 * Set this to true to print out debugging information
 	 **/
-	var $boolDebugMode		= false;
+	var $boolDebugMode = false;
 
 	/**
 	 * Constructor method for PHP 4

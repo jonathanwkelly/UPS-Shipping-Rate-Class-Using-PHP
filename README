@@ -1,0 +1,14 @@
+This is a very simple class that uses the UPS web service to get a shipping rate. Basically, 
+you pass it the shipping method you'd like to use, the destination / shipper zip codes, the 
+package dimensions, and receive a shipping quote. There are plenty of values that are hard-coded 
+in the XML request that could be passed in dynamically for a more robust rating process.
+
+WHAT YOU'LL NEED
+=============================================================================================
+
+[1] A UPS account
+
+[2] A UPS online account (get one here: https://www.ups.com/one-to-one/register) Once you create
+	your online account, you'll need to link your UPS account to the online account.
+
+[3] An API key

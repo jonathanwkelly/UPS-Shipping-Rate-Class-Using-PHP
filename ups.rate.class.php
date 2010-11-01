@@ -74,7 +74,7 @@ class UpsShippingQuote {
 	**/
 	private function GetServiceCode($strService='GND') {
 
-		switch($strService) { 
+		switch(strtoupper($strService)) { 
 
 			case '1DM':            
 				$strServiceCode = '14'; 

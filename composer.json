@@ -1,0 +1,13 @@
+{
+    "name": "jonathanwkelly/ups-shipping-rate",
+    "description": "This is a very simple class that uses the UPS web service to get a shipping rate. Basically, you pass it the shipping method you'd like to use, the destination / shipper zip codes, the package dimensions, and receive a shipping quote. There are plenty of values that are hard-coded in the XML request that could be passed in dynamically for a more robust rating process.",
+    "keywords": ["UPS", "api", "shipping", "rate"],
+    "license": "unknown",
+    "authors": [
+        {
+            "name": "Jonathan W. Kelly",
+            "email": "jonathanwkelly@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
